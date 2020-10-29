@@ -1,5 +1,6 @@
 import React, {Fragment, useContext} from 'react';
 import projectContext from '../../context/project/projectContext';
+import taskContext from '../../context/task/taskContext';
 import Task from './Task';
 
 const ListTask = () =>{
@@ -7,28 +8,24 @@ const ListTask = () =>{
   const projectsContext = useContext(projectContext);
   const { actualProject, deleteProject } = projectsContext;
 
+  const tasksContext = useContext(taskContext);
+  const { tasksProjects } = tasksContext;
+
   if(!actualProject) return <h2>Select a project</h2>;
 
   const [actual] = actualProject;
 
-  //dummy data
-  const tasks = [
-    {name:'Choose Theme', status: true},
-    {name:'Select personal', status: true},
-    {name:'Pay for rent', status: false},
-    {name:'Rent a car', status: false}
-  ]
 
   return(
     <Fragment>
       <h2>Project: {actual.name}</h2>
 
       <ul className="listado-tareas">
-        {(tasks.length === 0)
+        {(tasksProjects.length === 0)
           ?
             <li className="tarea"><p>There are no tasks</p></li>
           :
-            tasks.map(task => (
+            tasksProjects.map(task => (
               <Task
                 key={task.name}
                 task={task}
